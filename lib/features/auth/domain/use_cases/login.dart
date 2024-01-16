@@ -6,8 +6,8 @@ import 'package:flutter_clean_architecture_with_bloc/core/usecases/usecase.dart'
 import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/entities/login_entity.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/repositories/auth_repositories.dart';
 
-class PostLogin extends UseCase<LoginEntity, LoginParams> {
-  PostLogin(this._authRepo);
+class LoginUseCase extends UseCase<LoginEntity, LoginParams> {
+  LoginUseCase(this._authRepo);
 
   final AuthRepositories _authRepo;
 

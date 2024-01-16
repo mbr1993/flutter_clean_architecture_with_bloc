@@ -4,8 +4,8 @@ import 'package:flutter_clean_architecture_with_bloc/core/network/api_endpoint_u
 import 'package:flutter_clean_architecture_with_bloc/core/network/dio_client.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/data/models/login_response.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/data/models/register_response.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/post_login.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/post_register.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/login.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/register.dart';
 
 abstract class AuthRemoteDataSource {
   Future<Either<Failure, RegisterResponse>> register(RegisterParams registerParams);

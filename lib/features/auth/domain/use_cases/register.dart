@@ -6,8 +6,8 @@ import 'package:flutter_clean_architecture_with_bloc/core/usecases/usecase.dart'
 import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/entities/register_entity.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/repositories/auth_repositories.dart';
 
-class PostRegister extends UseCase<RegisterEntity, RegisterParams> {
-  PostRegister(this._authRepo);
+class RegisterUseCase extends UseCase<RegisterEntity, RegisterParams> {
+  RegisterUseCase(this._authRepo);
 
   final AuthRepositories _authRepo;
 

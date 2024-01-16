@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_with_bloc/dependencies_injection.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/post_login.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/login.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/cubit/auth_cubit.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/widgets/form_field.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/user/presentation/pages/user_page.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/presentation/pages/users_page.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/extension/strings.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/extension/text_theme.dart';
 
@@ -30,7 +30,7 @@ class _AuthPageState extends State<AuthPage> {
       child: BlocListener<AuthCubit, AuthState>(
         listener: (BuildContext context, AuthState state) {
           if (state is AuthSuccess) {
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const UserPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const UsersPage()));
           }
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));

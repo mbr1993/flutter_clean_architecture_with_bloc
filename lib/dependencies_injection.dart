@@ -2,9 +2,14 @@ import 'package:flutter_clean_architecture_with_bloc/core/network/dio_client.dar
 import 'package:flutter_clean_architecture_with_bloc/features/auth/data/data_sources/auth_remote_data_sources.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/data/repositories/auth_repositories_imp.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/repositories/auth_repositories.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/post_login.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/post_register.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/login.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/domain/use_cases/register.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/cubit/auth_cubit.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/data/data_sources/users_remote_data_sources.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/data/repositories/users_repositories_imp.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/domain/repositories/users_repositories.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/domain/use_cases/get_users.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/users/presentation/cubit/users_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt sl = GetIt.instance;
@@ -19,22 +24,27 @@ Future<void> serviceLocator() async {
 
 /// Register repositories
 void _repositories() {
-  sl.registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(sl()));
+  sl
+    ..registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(sl()))
+    ..registerLazySingleton<UsersRepositories>(() => UsersRepositoriesImp(sl()));
 }
 
 /// Register dataSources
 void _dataSources() {
-  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(sl()));
-}
-
-void _cubit() {
-  /// Auth
-  sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
+  sl
+    ..registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(sl()))
+    ..registerLazySingleton<UsersRemoteDataSource>(() => UsersRemoteDataSourceImpl(sl()));
 }
 
 void _useCase() {
-  /// Auth
   sl
-    ..registerLazySingleton<PostLogin>(() => PostLogin(sl()))
-    ..registerLazySingleton<PostRegister>(() => PostRegister(sl()));
+    ..registerLazySingleton(() => LoginUseCase(sl()))
+    ..registerLazySingleton(() => RegisterUseCase(sl()))
+    ..registerLazySingleton(() => GetUsersUseCase(sl()));
+}
+
+void _cubit() {
+  sl
+    ..registerFactory(() => AuthCubit(sl()))
+    ..registerFactory(() => UsersCubit(sl()));
 }
