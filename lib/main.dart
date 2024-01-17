@@ -1,26 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_clean_architecture_with_bloc/app.dart';
 import 'package:flutter_clean_architecture_with_bloc/dependencies_injection.dart';
-import 'package:flutter_clean_architecture_with_bloc/utils/app_utils.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/pages/auth_page.dart';
 
-void main() {
-  runZonedGuarded(
-    /// Lock device orientation to portrait
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-      /// Service locator
-      await serviceLocator();
-      return SystemChrome.setPreferredOrientations(
-        [
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ],
-      ).then((value) => runApp(const MainApp()));
-    },
-    (error, stack) => AppUtils.myPrint(error),
-  );
+  /// Service locator
+  await serviceLocator();
+
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Demo App',
+      debugShowCheckedModeBanner: false,
+      home: AuthPage(),
+    );
+  }
 }
