@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture_with_bloc/core/route/app_router.dart';
 import 'package:flutter_clean_architecture_with_bloc/dependencies_injection.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/pages/auth_page.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/cubit/auth_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +20,18 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Demo App',
-      debugShowCheckedModeBanner: false,
-      home: AuthPage(),
+    return BlocProvider<AuthCubit>(
+      create: (BuildContext context) => sl<AuthCubit>(),
+      child: Builder(
+        builder: (context) {
+          AppRouter.setStream(context);
+          return MaterialApp.router(
+            title: 'Demo App',
+            debugShowCheckedModeBanner: false,
+            routerConfig: AppRouter.router,
+          );
+        },
+      ),
     );
   }
 }
