@@ -10,6 +10,7 @@ import 'package:flutter_clean_architecture_with_bloc/features/users/data/reposit
 import 'package:flutter_clean_architecture_with_bloc/features/users/domain/repositories/users_repositories.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/users/domain/use_cases/get_users.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/users/presentation/cubit/users_cubit.dart';
+import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt sl = GetIt.instance;
@@ -20,12 +21,19 @@ Future<void> serviceLocator() async {
   _dataSources();
   _useCase();
   _cubit();
+  await _initHive();
+}
+
+/// Register Hive
+Future<HiveService> _initHive() async {
+  await HiveService.initHive();
+  return sl.registerSingleton<HiveService>(HiveService());
 }
 
 /// Register repositories
 void _repositories() {
   sl
-    ..registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(sl()))
+    ..registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(sl(), sl()))
     ..registerLazySingleton<UsersRepositories>(() => UsersRepositoriesImp(sl()));
 }
 
@@ -36,6 +44,7 @@ void _dataSources() {
     ..registerLazySingleton<UsersRemoteDataSource>(() => UsersRemoteDataSourceImpl(sl()));
 }
 
+/// Register useCases
 void _useCase() {
   sl
     ..registerLazySingleton(() => LoginUseCase(sl()))
@@ -43,6 +52,7 @@ void _useCase() {
     ..registerLazySingleton(() => GetUsersUseCase(sl()));
 }
 
+/// Register cubits
 void _cubit() {
   sl
     ..registerFactory(() => AuthCubit(sl()))

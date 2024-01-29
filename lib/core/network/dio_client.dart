@@ -3,26 +3,43 @@ import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/network/api_constant.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/network/isolate_parser.dart';
+import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 typedef ResponseConverter<T> = T Function(dynamic response);
 
-class DioClient {
-  final BaseOptions _baseOptions = BaseOptions(
-    baseUrl: ApiConstant.baseUrl,
-    headers: {
-      'Content-Type': 'application/json',
-      'accept': 'application/json',
-    },
-    receiveTimeout: const Duration(minutes: 1),
-    connectTimeout: const Duration(minutes: 1),
-  );
+class DioClient with HiveService {
+  DioClient() {
+    try {
+      _auth = getValue(HiveKey.token);
+    } catch (_) {}
 
-  Dio get dio {
-    final dio = Dio(_baseOptions);
-    dio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true));
-    return dio;
+    _dio = _createDio();
+    _dio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true));
   }
+
+  String? _auth;
+  late Dio _dio;
+
+  Dio _createDio() => Dio(
+        BaseOptions(
+          baseUrl: ApiConstant.baseUrl,
+          headers: {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            if (_auth != null) ...{
+              'Authorization': _auth,
+            },
+          },
+          receiveTimeout: const Duration(minutes: 1),
+          connectTimeout: const Duration(minutes: 1),
+          validateStatus: (int? status) {
+            return status! > 0;
+          },
+        ),
+      );
+
+  Dio get dio => _dio;
 
   Future<Either<Failure, T>> postRequest<T>(
     String url, {

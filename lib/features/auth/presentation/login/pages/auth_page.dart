@@ -30,7 +30,7 @@ class _AuthPageState extends State<AuthPage> {
       child: BlocListener<AuthCubit, AuthState>(
         listener: (BuildContext context, AuthState state) {
           if (state is AuthSuccess) {
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const UsersPage()));
+            Navigator.push(context, MaterialPageRoute<dynamic>(builder: (BuildContext context) => const UsersPage()));
           }
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
@@ -39,7 +39,7 @@ class _AuthPageState extends State<AuthPage> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: BlocBuilder<AuthCubit, AuthState>(
-            builder: bodySection,
+            builder: _bodySection,
           ),
         ),
       ),
@@ -47,7 +47,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   /// Body
-  Padding bodySection(BuildContext context, AuthState state) {
+  Padding _bodySection(BuildContext context, AuthState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
       child: Form(

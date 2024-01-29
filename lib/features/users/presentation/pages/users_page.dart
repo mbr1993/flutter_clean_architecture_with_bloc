@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture_with_bloc/dependencies_injection.dart';
+import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/cubit/auth_cubit.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/users/domain/entities/user.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/users/domain/use_cases/get_users.dart';
 import 'package:flutter_clean_architecture_with_bloc/features/users/presentation/cubit/users_cubit.dart';
@@ -20,7 +21,17 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Users Page')),
+      appBar: AppBar(
+        title: const Text('Users Page'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => context.read<AuthCubit>().logout(),
+            icon: const Icon(Icons.logout_outlined),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
       body: BlocProvider(
         create: (BuildContext context) => sl<UsersCubit>()..fetchUsers(UsersParam(page: 2)),
         child: BlocBuilder<UsersCubit, UsersState>(
