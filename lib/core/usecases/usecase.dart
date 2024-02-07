@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
 
-abstract class UseCase<Type, Params> {
+mixin UseCase<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);
 }
 

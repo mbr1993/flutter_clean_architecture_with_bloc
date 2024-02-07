@@ -9,26 +9,43 @@ class ServerFailure extends Failure {
   final String? message;
 
   @override
-  bool operator ==(Object other) {
-    return other is ServerFailure && other.message == message;
+  String toString() {
+    return 'ServerFailure: Check your email or password.';
   }
-
-  @override
-  int get hashCode => message.hashCode;
 }
 
-class NoDataFailure extends Failure {
-  @override
-  bool operator ==(Object other) => other is NoDataFailure;
+class NoDataFailure extends Failure {}
+
+class CacheFailure extends Failure {}
+
+class NoInternetFailure extends Failure {
+  NoInternetFailure(this.message);
+
+  final String message;
 
   @override
-  int get hashCode => 0;
+  String toString() {
+    return message;
+  }
 }
 
-class CacheFailure extends Failure {
+class LocalStorageFailure extends Failure {
+  LocalStorageFailure(this.message);
+
+  final String message;
   @override
-  bool operator ==(Object other) => other is CacheFailure;
+  String toString() {
+    return message;
+  }
+}
+
+class TokenNotFountFailure extends Failure {
+  TokenNotFountFailure(this.message);
+
+  final String message;
 
   @override
-  int get hashCode => 0;
+  String toString() {
+    return message;
+  }
 }

@@ -1,24 +1,20 @@
 import 'package:hive_flutter/adapters.dart';
 
-enum HiveKey {
-  token,
-  isLogin,
-  theme,
-  language,
-}
-
 mixin class HiveService {
-  static late Box<dynamic>? hiveBox;
-  static const String hiveBoxName = 'hive_box';
+  static Box<String>? box;
+  static const _hiveBoxName = 'HiveBox';
 
   static Future<void> initHive() async {
     await Hive.initFlutter();
-    hiveBox = await Hive.openBox(hiveBoxName);
+    box = await Hive.openBox<String>(_hiveBoxName);
   }
 
-  Future<void> addValue<T>(HiveKey key, T value) async => await hiveBox?.put(key.name, value);
+  /// Save Token
+  Future<void> saveToken(String token) async => await box?.put('token', token);
 
-  Future<void> deleteValue(HiveKey key) async => await hiveBox?.delete(key.name);
+  /// Delete Token
+  Future<void> deleteToken() async => box?.delete('token');
 
-  T? getValue<T>(HiveKey key) => hiveBox?.get(key.name) as T;
+  /// Check Token
+  bool hasToken() => box?.containsKey('token') ?? false;
 }

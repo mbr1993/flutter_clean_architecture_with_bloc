@@ -8,10 +8,10 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 typedef ResponseConverter<T> = T Function(dynamic response);
 
-class DioClient with HiveService {
+class DioClient {
   DioClient() {
     try {
-      _auth = getValue(HiveKey.token);
+      _auth = HiveService.box?.get('token');
     } catch (_) {}
 
     _dio = _createDio();

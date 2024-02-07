@@ -1,51 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture_with_bloc/core/route/not_found_screen.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/route/route_names.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/cubit/auth_cubit.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/auth/presentation/login/pages/auth_page.dart';
-import 'package:flutter_clean_architecture_with_bloc/features/users/presentation/pages/users_page.dart';
-import 'package:flutter_clean_architecture_with_bloc/utils/helper/go_router_refresh_stream.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/auth/presentation/login/pages/auth_page.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/users/presentation/pages/users_page.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  AppRouter.setStream(BuildContext ctx) {
-    context = ctx;
-  }
-
-  static late BuildContext context;
-
   static final router = GoRouter(
     debugLogDiagnostics: true,
     routes: <GoRoute>[
       GoRoute(
-        path: '/',
-        name: root,
-        redirect: (context, state) => '/users',
+        path: RouteNames.root.path,
+        name: RouteNames.root.name,
+        redirect: (context, state) => RouteNames.users.path,
       ),
       GoRoute(
-        path: '/auth',
-        name: auth,
+        path: RouteNames.auth.path,
+        name: RouteNames.auth.name,
         builder: (context, state) => const AuthPage(),
       ),
       GoRoute(
-        path: '/users',
-        name: users,
+        path: RouteNames.users.path,
+        name: RouteNames.users.name,
         builder: (context, state) => const UsersPage(),
       ),
     ],
-    redirect: (context, state) {
-      final isLoginPage = state.matchedLocation == '/auth';
-
-      if (!((HiveService.hiveBox?.get(HiveKey.isLogin.name) as bool?) ?? false)) {
-        return isLoginPage ? null : '/auth';
-      }
-
-      if (!((HiveService.hiveBox?.get(HiveKey.isLogin.name) as bool?) ?? false)) {
-        return '/users';
-      }
-      return null;
-    },
-    refreshListenable: GoRouterRefreshStream(context.read<AuthCubit>().stream),
+    initialLocation: HiveService().hasToken() ? RouteNames.users.path : RouteNames.auth.path,
+    errorBuilder: (context, state) => const NotFoundScreen(),
+    // redirect: (_, state) {
+    //   final isLoginPage = state.matchedLocation == RouteNames.auth.path;
+    //
+    //   if (HiveService().hiveBox?.get(HiveKey.token) == null) {
+    //     return isLoginPage ? null : RouteNames.auth.path;
+    //   }
+    //
+    //   if (isLoginPage && ((HiveService().hiveBox?.get(HiveKey.token) as bool?) ?? false)) {
+    //     return RouteNames.root.path;
+    //   }
+    //   return null;
+    // },
+    // refreshListenable: GoRouterRefreshStream(context.read<AuthCubit>().stream),
   );
 }

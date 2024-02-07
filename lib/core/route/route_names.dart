@@ -1,3 +1,10 @@
-const String root = '/';
-const String auth = '/auth';
-const String users = '/users';
+enum RouteNames {
+  root('/'),
+  auth('/auth'),
+  users('/users'),
+  ;
+
+  const RouteNames(this.path);
+
+  final String path;
+}
