@@ -58,7 +58,11 @@ class _AuthPageState extends State<AuthPage> {
               children: [
                 Text('Admin', style: Theme.of(context).textTheme.titleTextStyle),
                 const SizedBox(height: 5),
-                Text('Clean Architecture with Bloc', style: Theme.of(context).textTheme.subtitleTextStyle),
+                Text(
+                  'Flutter Clean Architecture with Flutter Bloc, Dio, Hive, GetIt, GoRouter',
+                  style: Theme.of(context).textTheme.subtitleTextStyle,
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
             Column(
@@ -90,7 +94,7 @@ class _AuthPageState extends State<AuthPage> {
                     onPressed: () => context.read<AuthCubit>().showHidePassword(),
                     icon: Icon(
                       (context.read<AuthCubit>().isPasswordHide) ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.black26,
+                      color: Colors.black54,
                     ),
                   ),
                   keyboardType: TextInputType.text,

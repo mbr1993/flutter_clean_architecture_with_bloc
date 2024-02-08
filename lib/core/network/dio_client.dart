@@ -11,7 +11,7 @@ typedef ResponseConverter<T> = T Function(dynamic response);
 class DioClient {
   DioClient() {
     try {
-      _auth = HiveService.box?.get('token');
+      _auth = HiveService.box?.get('token') as String?;
     } catch (_) {}
 
     _dio = _createDio();

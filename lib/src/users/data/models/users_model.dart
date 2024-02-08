@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 part 'users_model.g.dart';
 
 @HiveType(typeId: 0)
-class UsersModel {
+class UsersModel  extends HiveObject {
   UsersModel({this.page, this.perPage, this.total, this.totalPages, this.dataUser, this.support});
 
   factory UsersModel.fromRawJson(String str) => UsersModel.fromJson(json.decode(str) as Map<String, dynamic>);
@@ -53,14 +53,8 @@ class UsersModel {
   @HiveField(5)
   Support? support;
 
-  UsersModel copyWith({
-    int? page,
-    int? perPage,
-    int? total,
-    int? totalPages,
-    List<DataUser>? dataUser,
-    Support? support,
-  }) =>
+  UsersModel copyWith(
+          {int? page, int? perPage, int? total, int? totalPages, List<DataUser>? dataUser, Support? support}) =>
       UsersModel(
         page: page ?? this.page,
         perPage: perPage ?? this.perPage,
@@ -72,8 +66,7 @@ class UsersModel {
 
   String toRawJson() => json.encode(toJson());
 
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'page': page,
       'per_page': perPage,
       'total': total,
@@ -81,7 +74,6 @@ class UsersModel {
       'data': dataUser?.map((e) => e.toJson()).toList(),
       'support': support?.toJson(),
     };
-  }
 }
 
 class DataUser {

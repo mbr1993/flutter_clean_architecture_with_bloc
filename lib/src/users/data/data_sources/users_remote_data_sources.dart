@@ -3,10 +3,10 @@ import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/network/api_endpoint_urls.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/network/dio_client.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/data/models/users_model.dart';
-import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/get_users.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/use_cases.dart';
 
 mixin UsersRemoteDataSource {
-  Future<Either<Failure, UsersModel>> users(UsersParam usersParam);
+  Future<Either<Failure, UsersModel>> getUsers(UsersParam usersParam);
 }
 
 class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
@@ -15,7 +15,7 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   final DioClient _dioClient;
 
   @override
-  Future<Either<Failure, UsersModel>> users(UsersParam usersParam) async {
+  Future<Either<Failure, UsersModel>> getUsers(UsersParam usersParam) async {
     final response = await _dioClient.getRequest(
       ApiEndpointUrls.users,
       queryParameters: usersParam.toJson(),

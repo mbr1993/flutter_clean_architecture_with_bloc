@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture_with_bloc/core/route/route_names.dart';
 import 'package:flutter_clean_architecture_with_bloc/dependencies_injection.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/auth/presentation/login/cubit/auth_cubit.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/domain/entities/user.dart';
-import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/get_users.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/use_cases.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/presentation/cubit/users_cubit.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/presentation/cubit/users_state.dart';
+import 'package:go_router/go_router.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -20,9 +22,14 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: _body(),
+    return BlocProvider(
+      create: (BuildContext context) {
+        return sl<UsersCubit>()..fetchUsers(UsersParam(page: 1));
+      },
+      child: Scaffold(
+        appBar: _appBar(context),
+        body: _body(),
+      ),
     );
   }
 
@@ -32,7 +39,10 @@ class _UsersPageState extends State<UsersPage> {
       centerTitle: true,
       actions: [
         IconButton(
-          onPressed: () => context.read<AuthCubit>().logout(),
+          onPressed: () {
+            context.read<AuthCubit>().logout();
+            context.goNamed(RouteNames.auth.name);
+          },
           icon: const Icon(Icons.logout_outlined),
         ),
         const SizedBox(width: 16),

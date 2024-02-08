@@ -17,10 +17,8 @@ TextFormField customFormField({
     style: const TextStyle(fontSize: 14, color: Colors.deepPurple),
     controller: controller,
     decoration: InputDecoration(
-      prefixIcon: Icon(prefixIcon, color: Colors.black26),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black12),
-      ),
+      prefixIcon: Icon(prefixIcon, color: Colors.black54),
+      enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black12)),
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.deepPurpleAccent),
       ),
@@ -38,6 +36,12 @@ TextFormField customFormField({
       ),
       suffixIcon: isSuffixIcon ? suffixIcon : null,
       hintText: hintText,
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
     ),
     autocorrect: false,
     obscureText: obscureText ?? false,

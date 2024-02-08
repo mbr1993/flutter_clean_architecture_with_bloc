@@ -8,10 +8,11 @@ import 'package:flutter_clean_architecture_with_bloc/src/auth/domain/use_cases/l
 import 'package:flutter_clean_architecture_with_bloc/src/auth/domain/use_cases/logout.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/auth/domain/use_cases/register.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/auth/presentation/login/cubit/auth_cubit.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/users/data/data_sources/users_local_data_sources.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/data/data_sources/users_remote_data_sources.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/data/repositories/users_repositories_imp.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/domain/repositories/users_repositories.dart';
-import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/get_users.dart';
+import 'package:flutter_clean_architecture_with_bloc/src/users/domain/use_cases/use_cases.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/presentation/cubit/users_cubit.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 import 'package:get_it/get_it.dart';
@@ -38,7 +39,7 @@ Future<void> _initHive() async {
 void _repositories() {
   sl
     ..registerLazySingleton<AuthRepositories>(() => AuthRepositoriesImp(sl(), sl(), sl()))
-    ..registerLazySingleton<UsersRepositories>(() => UsersRepositoriesImp(sl()));
+    ..registerLazySingleton<UsersRepositories>(() => UsersRepositoriesImp(sl(), sl(), sl()));
 }
 
 /// Network
@@ -49,7 +50,8 @@ void _dataSources() {
   sl
     ..registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(sl()))
     ..registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(sl()))
-    ..registerLazySingleton<UsersRemoteDataSource>(() => UsersRemoteDataSourceImpl(sl()));
+    ..registerLazySingleton<UsersRemoteDataSource>(() => UsersRemoteDataSourceImpl(sl()))
+    ..registerLazySingleton<UsersLocalDataSource>(UsersLocalDataSourceImpl.new);
 }
 
 /// Register useCases
@@ -58,7 +60,7 @@ void _useCase() {
     ..registerLazySingleton(() => LoginUseCase(sl()))
     ..registerLazySingleton(() => LogoutUseCase(sl()))
     ..registerLazySingleton(() => RegisterUseCase(sl()))
-    ..registerLazySingleton(() => GetUsersUseCase(sl()));
+    ..registerLazySingleton(() => UsersUseCase(sl()));
 }
 
 /// Register cubits
