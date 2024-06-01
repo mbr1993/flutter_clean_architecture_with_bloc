@@ -1,11 +1,9 @@
-import 'package:dartz/dartz.dart';
-import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 
 abstract class AuthLocalDataSource {
-  Future<Either<Failure, void>> saveToken(String token);
+  Future<void> saveToken(String token);
 
-  Future<Either<Failure, void>> deleteToken();
+  Future<void> deleteToken();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -14,22 +12,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final HiveService _hive;
 
   @override
-  Future<Either<Failure, void>> saveToken(String token) async {
-    try {
-      await _hive.saveToken(token);
-      return const Right(null);
-    } catch (error) {
-      return Left(LocalStorageFailure(error.toString()));
-    }
-  }
+  Future<void> deleteToken() async => _hive.deleteToken();
 
   @override
-  Future<Either<Failure, void>> deleteToken() async {
-    try {
-      await _hive.deleteToken();
-      return const Right(null);
-    } catch (error) {
-      return Left(LocalStorageFailure(error.toString()));
-    }
-  }
+  Future<void> saveToken(String token) async => _hive.saveToken(token);
 }

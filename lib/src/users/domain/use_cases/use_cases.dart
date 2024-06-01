@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
-import 'package:flutter_clean_architecture_with_bloc/core/usecases/usecase.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/domain/entities/users.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/domain/repositories/users_repositories.dart';
 

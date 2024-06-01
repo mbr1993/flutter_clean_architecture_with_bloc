@@ -5,9 +5,9 @@ import 'package:flutter_clean_architecture_with_bloc/src/auth/domain/use_cases/l
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._postLogin, this._logoutUseCase) : super(AuthInitial());
+  AuthCubit(this._loginUseCase, this._logoutUseCase) : super(AuthInitial());
 
-  final LoginUseCase _postLogin;
+  final LoginUseCase _loginUseCase;
   final LogoutUseCase _logoutUseCase;
 
   bool isPasswordHide = true;
@@ -22,7 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
 
     try {
-      final result = await _postLogin.call(params);
+      final result = await _loginUseCase.call(params);
       result.fold(
         (l) => emit(AuthFailure(l.toString())),
         (r) => emit(AuthSuccess(r.token)),

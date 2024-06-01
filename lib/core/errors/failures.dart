@@ -1,6 +1,8 @@
 abstract class Failure {
   /// ignore: avoid_unused_constructor_parameters
-  const Failure([List<dynamic> properties = const <dynamic>[]]);
+  const Failure([
+    List<dynamic> properties = const <dynamic>[],
+  ]);
 }
 
 class ServerFailure extends Failure {
@@ -33,6 +35,7 @@ class LocalStorageFailure extends Failure {
   LocalStorageFailure(this.message);
 
   final String message;
+
   @override
   String toString() {
     return message;

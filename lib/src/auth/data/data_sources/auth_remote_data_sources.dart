@@ -12,7 +12,6 @@ abstract class AuthRemoteDataSource {
 
   Future<Either<Failure, LoginResponse>> login(LoginParams loginParams);
 
-  // logout
   Future<Either<Failure, void>> logout();
 }
 

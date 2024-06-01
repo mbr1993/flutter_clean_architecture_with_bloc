@@ -3,7 +3,7 @@ import 'package:flutter_clean_architecture_with_bloc/core/errors/failures.dart';
 import 'package:flutter_clean_architecture_with_bloc/src/users/data/models/users_model.dart';
 import 'package:flutter_clean_architecture_with_bloc/utils/services/hive.dart';
 
-mixin UsersLocalDataSource {
+abstract class UsersLocalDataSource {
   Future<Either<Failure, void>> saveUsersData(UsersModel usersModel);
 
   Future<Either<Failure, UsersModel>> getUsersData();

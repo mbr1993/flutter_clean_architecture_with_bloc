@@ -13,12 +13,6 @@ class RegisterResponse {
   String? token;
   String? error;
 
-  RegisterResponse copyWith({int? id, String? token, String? error}) => RegisterResponse(
-        id: id ?? this.id,
-        token: token ?? this.token,
-        error: error ?? this.error,
-      );
-
   Map<String, dynamic> toJson() => {'int': id, 'token': token, 'error': error};
 
   RegisterEntity toEntity() => RegisterEntity(token: token);
